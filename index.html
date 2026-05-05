@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Controle de Gastos do Pai</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- REMOVI O SCRIPT DAQUI -->
+</head>
+<body>
+    <h1>Controle de Despesas</h1>
+
+    <div>
+        <input type="text" id="nomeGasto" placeholder="Ex: Mercado">
+        <input type="number" id="valorGasto" placeholder="R$ 0,00">
+        <button onclick="adicionarGasto()">Adicionar</button>
+    </div>
+
+    <h3>Lista de Gastos</h3>
+    <ul id="lista">
+        <!-- Os gastos vão aparecer aqui -->
+    </ul>
+
+    <h4>Total: R$ <span id="total">0</span></h4>
+
+    <!-- MANTENHA O SCRIPT APENAS AQUI NO FINAL -->
+    <script src="script.js"></script>
+</body>
+</html>

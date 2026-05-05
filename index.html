@@ -4,52 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Raimundo Gastos</title>
-    <!-- Cor da barra de status no Android -->
     <meta name="theme-color" content="#0f172a">
     <link rel="stylesheet" href="style.css">
     
-    <!-- Configurações de Web App -->
+    <!-- Configurações PWA Android -->
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" sizes="192x192" href="painalancha.jpeg">
 </head>
-<body>
+<body class="dark-mode">
     <div class="app-shell">
         
         <!-- ABA LANÇAMENTO -->
         <main id="aba-anotar" class="content-section active">
             <header class="app-header">
-                <div class="profile-area">
+                <div class="profile-container">
                     <img src="painalancha.jpeg" alt="Raimundo" class="avatar">
+                    <div class="user-info">
+                        <h1>Olá, Raimundo</h1>
+                        <p>Controle de despesas</p>
+                    </div>
                 </div>
-                <h1>Olá, Raimundo!</h1>
-                <p>O que vamos anotar hoje?</p>
             </header>
 
             <div class="card-input">
                 <div class="input-group">
                     <label>Descrição</label>
-                    <input type="text" id="item" placeholder="Ex: Combustível" autocomplete="off">
+                    <input type="text" id="item" placeholder="O que você comprou?" autocomplete="off">
                 </div>
                 <div class="input-group">
-                    <label>Valor (R$)</label>
-                    <input type="number" id="valor" placeholder="0,00" step="0.01" inputmode="decimal">
+                    <label>Valor Pago</label>
+                    <input type="number" id="valor" placeholder="R$ 0,00" step="0.01" inputmode="decimal">
                 </div>
-                <button onclick="salvarGasto()" class="btn-main">Registrar Gasto</button>
+                <button onclick="salvarGasto()" class="btn-main">Lançar Gasto</button>
             </div>
 
-            <div class="recent-activity">
-                <div class="section-title">
-                    <span>Recentes</span>
-                    <button onclick="mudarAba('perfil')">Ver tudo</button>
+            <div class="recent-section">
+                <div class="section-header">
+                    <h2>Atividades Recentes</h2>
+                    <button class="btn-view-all" onclick="mudarAba('perfil')">Histórico</button>
                 </div>
-                <ul id="lista-curta" class="activity-list"></ul>
+                <div id="lista-curta" class="activity-list"></div>
             </div>
         </main>
 
-        <!-- ABA RELATÓRIO -->
+        <!-- ABA HISTÓRICO -->
         <main id="aba-perfil" class="content-section">
             <header class="app-header">
-                <h1>Relatório</h1>
+                <h1>Meu Perfil</h1>
                 <div class="filter-chips">
                     <button onclick="filtrar('dia', event)" class="chip">Hoje</button>
                     <button onclick="filtrar('mes', event)" class="chip">Mês</button>
@@ -57,18 +58,16 @@
                 </div>
             </header>
 
-            <div class="history-container">
-                <div id="tabela-corpo" class="history-list"></div>
-            </div>
+            <div id="tabela-corpo" class="history-list"></div>
         </main>
 
-        <!-- DASHBOARD FIXO -->
+        <!-- DASHBOARD DE TOTAL -->
         <div class="total-dashboard">
-            <div class="total-label">Total Acumulado</div>
-            <div class="total-value">R$ <span id="valor-total">0,00</span></div>
+            <span class="total-label">Total Gasto</span>
+            <span class="total-value">R$ <span id="valor-total">0,00</span></span>
         </div>
 
-        <!-- BARRA DE NAVEGAÇÃO -->
+        <!-- NAVEGAÇÃO -->
         <nav class="tab-bar">
             <button class="tab-btn active" id="btn-anotar" onclick="mudarAba('anotar')">
                 <span class="icon">🏠</span>

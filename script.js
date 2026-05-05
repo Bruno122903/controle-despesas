@@ -1,46 +1,35 @@
-let meusGastos = JSON.parse(localStorage.getItem('RaimundoAppDB')) || [];
+let db = JSON.parse(localStorage.getItem('Raimundo_Dark_DB')) || [];
 
 window.onload = () => {
-    renderizarRecentes();
-    atualizarTotal();
+    atualizarTudo();
 };
 
 function salvarGasto() {
     const desc = document.getElementById('item').value;
     const valor = parseFloat(document.getElementById('valor').value);
-    const data = new Date();
+    const date = new Date();
 
     if (!desc || isNaN(valor)) {
-        alert("Pai, preencha a descrição e o valor!");
+        alert("Pai, escreva o que comprou e o valor!");
         return;
     }
 
-    const novoGasto = {
+    const novo = {
         id: Date.now(),
         desc,
         valor,
-        dataIso: data.toISOString(),
-        dataPT: data.toLocaleDateString('pt-BR')
+        data: date.toLocaleDateString('pt-BR'),
+        mes: date.getMonth(),
+        iso: date.toISOString()
     };
 
-    meusGastos.push(novoGasto);
-    localStorage.setItem('RaimundoAppDB', JSON.stringify(meusGastos));
+    db.push(novo);
+    localStorage.setItem('Raimundo_Dark_DB', JSON.stringify(db));
 
     document.getElementById('item').value = "";
     document.getElementById('valor').value = "";
     
-    renderizarRecentes();
-    atualizarTotal();
-    
-    // Pequeno feedback visual no botão
-    const btn = document.querySelector('.btn-main');
-    const originalText = btn.innerText;
-    btn.innerText = "✅ Salvo!";
-    btn.style.background = "#16a34a";
-    setTimeout(() => {
-        btn.innerText = originalText;
-        btn.style.background = "";
-    }, 1500);
+    atualizarTudo();
 }
 
 function mudarAba(nome) {
@@ -53,51 +42,59 @@ function mudarAba(nome) {
     if (nome === 'perfil') filtrar('todos');
 }
 
-function atualizarTotal() {
-    const total = meusGastos.reduce((acc, g) => acc + g.valor, 0);
+function atualizarTudo() {
+    // Atualiza Lista Curta
+    const lista = document.getElementById('lista-curta');
+    lista.innerHTML = "";
+    db.slice(-3).reverse().forEach(g => {
+        lista.innerHTML += criarCard(g);
+    });
+
+    // Atualiza Total
+    const total = db.reduce((acc, g) => acc + g.valor, 0);
     document.getElementById('valor-total').innerText = total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 }
 
-function renderizarRecentes() {
-    const lista = document.getElementById('lista-curta');
-    lista.innerHTML = "";
-    
-    meusGastos.slice(-3).reverse().forEach(g => {
-        lista.innerHTML += `
-            <div class="item-card">
-                <div class="item-info">
-                    <b>${g.desc}</b>
-                    <small>${g.dataPT}</small>
-                </div>
-                <div class="item-price">R$ ${g.valor.toFixed(2)}</div>
-            </div>`;
-    });
-}
-
-function filtrar(modo, event) {
+function filtrar(tipo, e) {
     const container = document.getElementById('tabela-corpo');
     container.innerHTML = "";
     
-    if (event) {
+    if (e) {
         document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        event.target.classList.add('active');
+        e.target.classList.add('active');
     }
 
-    let filtrados = meusGastos;
+    let lista = db;
     const hoje = new Date().toLocaleDateString('pt-BR');
     const mesAtual = new Date().getMonth();
 
-    if(modo === 'dia') filtrados = meusGastos.filter(g => g.dataPT === hoje);
-    if(modo === 'mes') filtrados = meusGastos.filter(g => new Date(g.dataIso).getMonth() === mesAtual);
+    if (tipo === 'dia') lista = db.filter(g => g.data === hoje);
+    if (tipo === 'mes') lista = db.filter(g => g.mes === mesAtual);
 
-    filtrados.reverse().forEach(g => {
-        container.innerHTML += `
-            <div class="item-card">
-                <div class="item-info">
-                    <b>${g.desc}</b>
-                    <small>${g.dataPT}</small>
-                </div>
-                <div class="item-price">R$ ${g.valor.toFixed(2)}</div>
-            </div>`;
+    lista.reverse().forEach(g => {
+        container.innerHTML += criarCard(g);
     });
+}
+
+function criarCard(g) {
+    return `
+        <div class="item-card">
+            <div class="item-info">
+                <b>${g.desc}</b>
+                <small>${g.data}</small>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <span class="item-price">R$ ${g.valor.toFixed(2)}</span>
+                <button class="btn-delete" onclick="apagar(${g.id})">🗑️</button>
+            </div>
+        </div>`;
+}
+
+function apagar(id) {
+    if (confirm("Pai, quer mesmo apagar esse gasto?")) {
+        db = db.filter(g => g.id !== id);
+        localStorage.setItem('Raimundo_Dark_DB', JSON.stringify(db));
+        atualizarTudo();
+        if (document.getElementById('aba-perfil').classList.contains('active')) filtrar('todos');
+    }
 }

@@ -1,171 +1,152 @@
-/* 1. CONFIGURAÇÃO DO FUNDO (TELA TODA) */
+:root {
+    --primary: #22c55e;
+    --primary-dark: #16a34a;
+    --bg-dark: #0f172a;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+}
+
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
                 url('https://i.pinimg.com/736x/50/12/99/501299b4b08dd82af8ecaf1c39a49895.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
     margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-/* 2. O CONTAINER (O "CARD" BRANCO) */
-.container {
-    /* CORREÇÃO AQUI: Adicionei linear-gradient para clarear a imagem e dar leitura */
-    background-image: linear-gradient(rgba(121, 64, 64, 0.8), rgba(255, 255, 255, 0.8)),
-                      url('https://i.pinimg.com/736x/47/dd/dd/47ddddff98ec9de58867da3ee4969d1d.jpg');
-    background-size: cover;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    padding: 35px 25px;
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    
-    width: 100%;
-    max-width: 420px;
-    margin-top: 20px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    text-align: center;
-}
-
-/* 3. IMAGEM DO TOPO */
-.Imagem {
+    color: white;
     display: flex;
     justify-content: center;
+    min-height: 100vh;
+    
+}
+
+.app-shell {
     width: 100%;
+    max-width: 450px;
+    padding: 20px;
+    padding-bottom: 160px; /* Espaço para não cobrir o conteúdo com a barra */
+}
+
+/* Avatar e Header */
+.avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border: 3px solid var(--primary);
+    object-fit: cover;
     margin-bottom: 10px;
 }
 
-.Imagem img {
-    border-radius: 50%;
-    border: 5px solid white;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-    max-width: 100px;
-    height: auto;
+h1 { font-size: 1.7rem; font-weight: 800; margin: 0; }
+.app-header p { color: #94a3b8; font-size: 0.95rem; margin-top: 4px; }
+
+/* Inputs Estilo Premium */
+.card-input {
+    background: var(--card-bg);
+    border-radius: 28px;
+    padding: 25px;
+    margin: 25px 0;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
 
-/* 4. TÍTULOS - Ajustados para contraste máximo */
-h1 {
-    color: #ffffff; /* Mudei para escuro para ler sobre o fundo claro */
-    font-size: 1.8rem;
-    font-weight: 800;
-    margin-bottom: 25px;
-    width: 100%;
-    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-}
-
-h3 {
-    font-size: 1rem;
-    color: #000000;
-    margin: 30px 0 15px 0;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    width: 100%;
-}
-
-/* 5. FORMULÁRIO (INPUTS E BOTÃO) */
-.form-grupo {
-    width: 100%; 
-}
+.input-group { margin-bottom: 18px; display: flex; flex-direction: column; }
+.input-group label { font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin: 0 0 6px 5px; }
 
 input {
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 16px;
-    border: 1px solid #cbd5e1;
-    border-radius: 16px;
-    font-size: 16px;
-    background: #ffffff; /* Fundo sólido para ler melhor */
-    outline: none;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
+    background: #f1f5f9;
+    border: 2px solid transparent;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 1rem;
+    color: var(--text-main);
 }
 
-input:focus {
-    border-color: #22c55e;
-    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
-}
+input:focus { border-color: var(--primary); outline: none; background: #fff; }
 
-button {
+.btn-main {
     width: 100%;
-    padding: 18px;
-    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    background: var(--primary);
     color: white;
     border: none;
-    border-radius: 16px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    cursor: pointer;
-    box-shadow: 0 10px 20px rgba(22, 163, 74, 0.2);
-    transition: transform 0.2s;
-}
-
-/* 6. LISTA DE GASTOS - UNIFICADA */
-.resumo {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.4); /* Quadro sutil para interligar os itens */
-    padding: 10px;
-    border-radius: 20px;
-    margin-top: 10px;
-}
-
-ul {
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-li {
-    background: white;
-    margin-bottom: 8px; /* Menor distância para parecer uma lista só */
     padding: 18px;
-    border-radius: 15px;
+    border-radius: 18px;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
+}
+
+/* Cartões de Histórico */
+.item-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 16px;
+    border-radius: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #f1f5f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 10px;
 }
 
-/* 7. SEÇÃO DO TOTAL */
-.total-section {
-    width: 100%;
-    margin-top: 30px;
-    padding: 20px;
-    background: #1e293b; /* Escuro para destacar o valor verde */
-    border-radius: 20px;
-    box-sizing: border-box;
-    color: white;
+.item-info b { display: block; font-size: 1rem; color: #f8fafc; }
+.item-info small { color: #94a3b8; }
+.item-price { color: #4ade80; font-weight: 800; font-size: 1.1rem; }
+
+/* Dashboard Total */
+.total-dashboard {
+    position: fixed;
+    bottom: 95px;
+    left: 20px;
+    right: 20px;
+    background: var(--primary);
+    padding: 15px 25px;
+    border-radius: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    z-index: 99;
 }
 
-.total-section h4 {
-    margin: 0;
-    color: #94a3b8;
-    font-size: 0.9rem;
+/* Tab Bar Android Style */
+.tab-bar {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    height: 70px;
+    background: #1e293b;
+    border-radius: 25px;
+    display: flex;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 100;
 }
 
-.total-section p {
-    font-size: 2.5rem;
-    font-weight: 900;
-    margin: 5px 0 0 0;
-    color: #22c55e;
+.tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
 }
 
-/* 8. UTILITÁRIOS */
-.categoria-tag {
-    font-size: 0.75rem;
-    color: #94a3b8;
-    display: block;
-    margin-top: 4px;
+.tab-btn.active { color: var(--primary); }
+.tab-btn .icon { font-size: 1.4rem; }
+.tab-btn .label { font-size: 0.7rem; font-weight: 700; }
+
+/* Utilitários */
+.content-section { display: none; }
+.content-section.active { display: block; animation: slideUp 0.3s ease-out; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
+
+.filter-chips { display: flex; gap: 8px; margin: 15px 0; }
+.chip { background: rgba(255,255,255,0.1); border: none; color: white; padding: 10px 20px; border-radius: 20px; font-weight: 600; }
+.chip.active { background: var(--primary); }

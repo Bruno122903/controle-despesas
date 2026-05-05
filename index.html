@@ -3,49 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Controle de Gastos</title>
-    <!-- Faz o site abrir sem a barra do navegador (modo app) -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Raimundo App">
-
-<!-- Ícone que vai aparecer na tela inicial (usa a mesma imagem do topo) -->
-<link rel="apple-touch-icon" href="painalancha.jpeg">
-<link rel="icon" href="painalancha.jpeg">
+    <title>Raimundo Gastos</title>
+    <!-- Cor da barra de status no Android -->
+    <meta name="theme-color" content="#0f172a">
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Configurações de Web App -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="painalancha.jpeg">
 </head>
 <body>
-    <div class="container">
-        <!-- Topo com a imagem centralizada -->
-        <div class="Imagem">
-            <img src="painalancha.jpeg" width="100" alt="Logo">
-        </div>
+    <div class="app-shell">
         
-        <h1>Raimundo Despesas</h1> 
+        <!-- ABA LANÇAMENTO -->
+        <main id="aba-anotar" class="content-section active">
+            <header class="app-header">
+                <div class="profile-area">
+                    <img src="painalancha.jpeg" alt="Raimundo" class="avatar">
+                </div>
+                <h1>Olá, Raimundo!</h1>
+                <p>O que vamos anotar hoje?</p>
+            </header>
 
-        <!-- Grupo de entrada de dados -->
-        <div class="form-grupo">
-            <input type="text" id="categoriaGasto" placeholder="Em que gastou? (Ex: Gasolina)">
-            <input type="number" id="valorGasto" placeholder="Valor R$">
-            <button onclick="adicionarGasto()"> Adicionar à Lista</button>
-        </div>
-
-        <!-- Lista de Gastos Interligada -->
-        <div class="resumo">
-            <h3>Lista de Gastos</h3>
-            <div class="quadro-lista">
-                <ul id="lista">
-                    <!-- Os itens do script.js aparecerão aqui -->
-                </ul>
+            <div class="card-input">
+                <div class="input-group">
+                    <label>Descrição</label>
+                    <input type="text" id="item" placeholder="Ex: Combustível" autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label>Valor (R$)</label>
+                    <input type="number" id="valor" placeholder="0,00" step="0.01" inputmode="decimal">
+                </div>
+                <button onclick="salvarGasto()" class="btn-main">Registrar Gasto</button>
             </div>
+
+            <div class="recent-activity">
+                <div class="section-title">
+                    <span>Recentes</span>
+                    <button onclick="mudarAba('perfil')">Ver tudo</button>
+                </div>
+                <ul id="lista-curta" class="activity-list"></ul>
+            </div>
+        </main>
+
+        <!-- ABA RELATÓRIO -->
+        <main id="aba-perfil" class="content-section">
+            <header class="app-header">
+                <h1>Relatório</h1>
+                <div class="filter-chips">
+                    <button onclick="filtrar('dia', event)" class="chip">Hoje</button>
+                    <button onclick="filtrar('mes', event)" class="chip">Mês</button>
+                    <button onclick="filtrar('todos', event)" class="chip active">Tudo</button>
+                </div>
+            </header>
+
+            <div class="history-container">
+                <div id="tabela-corpo" class="history-list"></div>
+            </div>
+        </main>
+
+        <!-- DASHBOARD FIXO -->
+        <div class="total-dashboard">
+            <div class="total-label">Total Acumulado</div>
+            <div class="total-value">R$ <span id="valor-total">0,00</span></div>
         </div>
 
-        <!-- Seção de Total -->
-        <div class="total-section">
-            <h4>Total Acumulado:</h4>
-            <p>R$ <span id="total">0.00</span></p>
-        </div>
+        <!-- BARRA DE NAVEGAÇÃO -->
+        <nav class="tab-bar">
+            <button class="tab-btn active" id="btn-anotar" onclick="mudarAba('anotar')">
+                <span class="icon">🏠</span>
+                <span class="label">Início</span>
+            </button>
+            <button class="tab-btn" id="btn-perfil" onclick="mudarAba('perfil')">
+                <span class="icon">📊</span>
+                <span class="label">Perfil</span>
+            </button>
+        </nav>
     </div>
 
     <script src="script.js"></script>

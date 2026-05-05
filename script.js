@@ -1,70 +1,103 @@
-let listaGastos = JSON.parse(localStorage.getItem('gastosPai')) || [];
+let meusGastos = JSON.parse(localStorage.getItem('RaimundoAppDB')) || [];
 
-function renderizarGastos() {
-    const listaHtml = document.getElementById('lista');
-    const totalHtml = document.getElementById('total');
-    
-    listaHtml.innerHTML = ""; 
-    let soma = 0;
+window.onload = () => {
+    renderizarRecentes();
+    atualizarTotal();
+};
 
-    listaGastos.forEach((gasto, index) => {
-        soma += gasto.valor;
-        const item = document.createElement('li');
-        
-        item.innerHTML = `
-            <div>
-                <strong>${gasto.categoria}</strong>
-                <span class="categoria-tag">${gasto.data}</span>
-            </div>
-            <div style="display: flex; align-items: center;">
-                <span style="font-weight: bold; margin-right: 10px;">R$ ${gasto.valor.toFixed(2)}</span>
-                <button onclick="removerGasto(${index})" style="width: 30px; height: 30px; padding: 0; background: #dc3545; border-radius: 50%; color: white; border: none; cursor: pointer;">✕</button>
-            </div>
-        `;
-        listaHtml.appendChild(item);
-    });
+function salvarGasto() {
+    const desc = document.getElementById('item').value;
+    const valor = parseFloat(document.getElementById('valor').value);
+    const data = new Date();
 
-    totalHtml.innerText = soma.toFixed(2);
-    localStorage.setItem('gastosPai', JSON.stringify(listaGastos));
-}
-
-function adicionarGasto() {
-    const categoriaInput = document.getElementById('categoriaGasto');
-    const valorInput = document.getElementById('valorGasto');
-
-    const categoria = categoriaInput.value;
-    const valor = parseFloat(valorInput.value);
-    const data = new Date().toLocaleDateString('pt-BR');
-
-    if (categoria === "" || isNaN(valor)) {
-        alert("Por favor, preencha o ramo e o valor!");
+    if (!desc || isNaN(valor)) {
+        alert("Pai, preencha a descrição e o valor!");
         return;
     }
 
-    // Salvamos apenas o "ramo" (categoria) e o valor
-    listaGastos.push({ categoria, valor, data });
+    const novoGasto = {
+        id: Date.now(),
+        desc,
+        valor,
+        dataIso: data.toISOString(),
+        dataPT: data.toLocaleDateString('pt-BR')
+    };
+
+    meusGastos.push(novoGasto);
+    localStorage.setItem('RaimundoAppDB', JSON.stringify(meusGastos));
+
+    document.getElementById('item').value = "";
+    document.getElementById('valor').value = "";
     
-    categoriaInput.value = "";
-    valorInput.value = "";
+    renderizarRecentes();
+    atualizarTotal();
     
-    renderizarGastos();
+    // Pequeno feedback visual no botão
+    const btn = document.querySelector('.btn-main');
+    const originalText = btn.innerText;
+    btn.innerText = "✅ Salvo!";
+    btn.style.background = "#16a34a";
+    setTimeout(() => {
+        btn.innerText = originalText;
+        btn.style.background = "";
+    }, 1500);
 }
 
-function removerGasto(index) {
-    if(confirm("Apagar esse registro?")) {
-        listaGastos.splice(index, 1); 
-        renderizarGastos();
+function mudarAba(nome) {
+    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+    document.getElementById(`aba-${nome}`).classList.add('active');
+
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`btn-${nome}`).classList.add('active');
+
+    if (nome === 'perfil') filtrar('todos');
+}
+
+function atualizarTotal() {
+    const total = meusGastos.reduce((acc, g) => acc + g.valor, 0);
+    document.getElementById('valor-total').innerText = total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+}
+
+function renderizarRecentes() {
+    const lista = document.getElementById('lista-curta');
+    lista.innerHTML = "";
+    
+    meusGastos.slice(-3).reverse().forEach(g => {
+        lista.innerHTML += `
+            <div class="item-card">
+                <div class="item-info">
+                    <b>${g.desc}</b>
+                    <small>${g.dataPT}</small>
+                </div>
+                <div class="item-price">R$ ${g.valor.toFixed(2)}</div>
+            </div>`;
+    });
+}
+
+function filtrar(modo, event) {
+    const container = document.getElementById('tabela-corpo');
+    container.innerHTML = "";
+    
+    if (event) {
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        event.target.classList.add('active');
     }
+
+    let filtrados = meusGastos;
+    const hoje = new Date().toLocaleDateString('pt-BR');
+    const mesAtual = new Date().getMonth();
+
+    if(modo === 'dia') filtrados = meusGastos.filter(g => g.dataPT === hoje);
+    if(modo === 'mes') filtrados = meusGastos.filter(g => new Date(g.dataIso).getMonth() === mesAtual);
+
+    filtrados.reverse().forEach(g => {
+        container.innerHTML += `
+            <div class="item-card">
+                <div class="item-info">
+                    <b>${g.desc}</b>
+                    <small>${g.dataPT}</small>
+                </div>
+                <div class="item-price">R$ ${g.valor.toFixed(2)}</div>
+            </div>`;
+    });
 }
-
-renderizarGastos();
-
-
-function removerGasto(index) {
-    if(confirm("Tem certeza que quer apagar esse gasto?")) {
-        listaGastos.splice(index, 1); 
-        renderizarGastos();
-    }
-}
-
-renderizarGastos();

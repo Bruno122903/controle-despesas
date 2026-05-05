@@ -2,27 +2,43 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Controle de Gastos do Pai</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Controle de Gastos</title>
     <link rel="stylesheet" href="style.css">
-    <!-- REMOVI O SCRIPT DAQUI -->
 </head>
 <body>
-    <h1>Controle de Despesas</h1> 
+    <div class="container">
+        <!-- Topo com a imagem centralizada -->
+        <div class="Imagem">
+            <img src="painalancha.jpeg" width="100" alt="Logo">
+        </div>
+        
+        <h1>Raimundo Despesas</h1> 
 
-    <div>
-        <input type="text" id="nomeGasto" placeholder="Ex: Mercado">
-        <input type="number" id="valorGasto" placeholder="R$ 0,00">
-        <button onclick="adicionarGasto()">Adicionar</button>
+        <!-- Grupo de entrada de dados -->
+        <div class="form-grupo">
+            <input type="text" id="categoriaGasto" placeholder="Em que gastou? (Ex: Gasolina)">
+            <input type="number" id="valorGasto" placeholder="Valor R$">
+            <button onclick="adicionarGasto()"> Adicionar à Lista</button>
+        </div>
+
+        <!-- Lista de Gastos Interligada -->
+        <div class="resumo">
+            <h3>Lista de Gastos</h3>
+            <div class="quadro-lista">
+                <ul id="lista">
+                    <!-- Os itens do script.js aparecerão aqui -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção de Total -->
+        <div class="total-section">
+            <h4>Total Acumulado:</h4>
+            <p>R$ <span id="total">0.00</span></p>
+        </div>
     </div>
 
-    <h3>Lista de Gastos</h3>
-    <ul id="lista">
-        <!-- Os gastos vão aparecer aqui -->
-    </ul>
-
-    <h4>Total: R$ <span id="total">0</span></h4>
-
-    <!-- MANTENHA O SCRIPT APENAS AQUI NO FINAL -->
     <script src="script.js"></script>
 </body>
 </html>

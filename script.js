@@ -1,57 +1,70 @@
-// 1. Tenta pegar os dados. IMPORTANTE: O nome 'gastosPai' tem que ser igual em todo o código
 let listaGastos = JSON.parse(localStorage.getItem('gastosPai')) || [];
 
 function renderizarGastos() {
     const listaHtml = document.getElementById('lista');
     const totalHtml = document.getElementById('total');
     
-    if (!listaHtml) return; // Segurança caso o HTML não carregou
-
     listaHtml.innerHTML = ""; 
     let soma = 0;
 
     listaGastos.forEach((gasto, index) => {
         soma += gasto.valor;
         const item = document.createElement('li');
+        
         item.innerHTML = `
-            ${gasto.nome} 
-            <span>
-                R$ ${gasto.valor.toFixed(2)} 
-                <button onclick="removerGasto(${index})" style="width: auto; padding: 2px 8px; background: #dc3545; margin-left: 10px; display: inline;">X</button>
-            </span>
+            <div>
+                <strong>${gasto.categoria}</strong>
+                <span class="categoria-tag">${gasto.data}</span>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <span style="font-weight: bold; margin-right: 10px;">R$ ${gasto.valor.toFixed(2)}</span>
+                <button onclick="removerGasto(${index})" style="width: 30px; height: 30px; padding: 0; background: #dc3545; border-radius: 50%; color: white; border: none; cursor: pointer;">✕</button>
+            </div>
         `;
         listaHtml.appendChild(item);
     });
 
     totalHtml.innerText = soma.toFixed(2);
-    
-    // 2. SALVA NA MEMÓRIA: Aqui é onde a mágica acontece
     localStorage.setItem('gastosPai', JSON.stringify(listaGastos));
 }
 
 function adicionarGasto() {
-    const nomeInput = document.getElementById('nomeGasto');
+    const categoriaInput = document.getElementById('categoriaGasto');
     const valorInput = document.getElementById('valorGasto');
 
-    const nome = nomeInput.value;
+    const categoria = categoriaInput.value;
     const valor = parseFloat(valorInput.value);
+    const data = new Date().toLocaleDateString('pt-BR');
 
-    if (nome === "" || isNaN(valor)) {
-        alert("Preencha os campos!");
+    if (categoria === "" || isNaN(valor)) {
+        alert("Por favor, preencha o ramo e o valor!");
         return;
     }
 
-    listaGastos.push({ nome, valor });
-    nomeInput.value = "";
+    // Salvamos apenas o "ramo" (categoria) e o valor
+    listaGastos.push({ categoria, valor, data });
+    
+    categoriaInput.value = "";
     valorInput.value = "";
-
+    
     renderizarGastos();
 }
 
 function removerGasto(index) {
-    listaGastos.splice(index, 1); 
-    renderizarGastos();
+    if(confirm("Apagar esse registro?")) {
+        listaGastos.splice(index, 1); 
+        renderizarGastos();
+    }
 }
 
-// 3. ESSA LINHA É FUNDAMENTAL: Ela desenha os gastos salvos assim que a página abre
+renderizarGastos();
+
+
+function removerGasto(index) {
+    if(confirm("Tem certeza que quer apagar esse gasto?")) {
+        listaGastos.splice(index, 1); 
+        renderizarGastos();
+    }
+}
+
 renderizarGastos();

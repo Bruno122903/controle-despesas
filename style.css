@@ -1,17 +1,20 @@
+/* --- 1. VARIÁVEIS E BASE (MODO ESCURO OBRIGATÓRIO) --- */
 :root {
     --primary: #22c55e;
+    --primary-hover: #16a34a;
     --bg-main: #0f172a;
     --bg-card: #1e293b;
     --text-white: #f8fafc;
     --text-gray: #94a3b8;
     --danger: #ef4444;
+    --glass: rgba(30, 41, 59, 0.7);
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-main);
     background-image: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), 
-                      url('https://i.pinimg.com/736x/47/dd/dd/47ddddff98ec9de58867da3ee4969d1d.jpg');
+                      url('https://i.pinimg.com/736x/50/12/99/501299b4b08dd82af8ecaf1c39a49895.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -20,92 +23,239 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .app-shell {
     width: 100%;
     max-width: 450px;
-    padding: 20px 20px 180px 20px;
+    padding: 20px 20px 180px 20px; /* Espaço inferior para o dashboard e menu */
+    box-sizing: border-box;
 }
 
-/* Header */
-.profile-container { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-.avatar { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; }
-h1 { font-size: 1.5rem; margin: 0; }
-.user-info p { margin: 0; font-size: 0.85rem; color: var(--text-gray); }
+/* --- 2. CABEÇALHO (ESTILO APP PREMIUM) --- */
+.app-header {
+    margin-bottom: 30px;
+    text-align: left;
+}
 
-/* Card Lançamento (Dark) */
+.perfil-header {
+    text-align: center; /* Centralizado apenas na aba Perfil */
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border: 3px solid var(--primary);
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+h1 {
+    font-size: 1.7rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.app-header p {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    margin-top: 5px;
+}
+
+/* --- 3. ENTRADA DE DADOS (CARD DE LANÇAMENTO) --- */
 .card-input {
     background: var(--bg-card);
-    padding: 24px;
-    border-radius: 24px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    padding: 25px;
+    border-radius: 28px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
     border: 1px solid rgba(255,255,255,0.05);
+    margin-bottom: 30px;
 }
 
-.input-group { margin-bottom: 20px; }
-.input-group label { display: block; font-size: 0.7rem; text-transform: uppercase; color: var(--text-gray); margin-bottom: 8px; font-weight: 700; letter-spacing: 1px; }
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-gray);
+    margin-bottom: 8px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
 
 input {
     width: 100%;
     background: #0f172a;
     border: 2px solid #334155;
-    padding: 14px;
-    border-radius: 12px;
+    padding: 16px;
+    border-radius: 14px;
     color: white;
     font-size: 1rem;
     box-sizing: border-box;
-    transition: 0.3s;
+    transition: all 0.3s;
 }
 
-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px rgba(34, 197, 94, 0.2); }
+input:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+}
 
 .btn-main {
     width: 100%;
     background: var(--primary);
     color: white;
     border: none;
-    padding: 16px;
-    border-radius: 14px;
+    padding: 18px;
+    border-radius: 16px;
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 1.1rem;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+    transition: transform 0.2s;
 }
 
-/* Recentes & Atividade */
-.section-header { display: flex; justify-content: space-between; align-items: center; margin: 30px 0 15px; }
-.section-header h2 { font-size: 1.1rem; margin: 0; }
-.btn-view-all { background: rgba(34, 197, 94, 0.15); color: var(--primary); border: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; }
+.btn-main:active { transform: scale(0.96); }
 
-.activity-list { display: flex; flex-direction: column; gap: 10px; }
-
-.item-card {
-    background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(5px);
-    padding: 16px;
-    border-radius: 18px;
+/* --- 4. SEÇÃO DE RECENTES (AJUSTADA) --- */
+.section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid rgba(255,255,255,0.05);
+    margin-bottom: 15px;
 }
 
-.item-info b { display: block; font-size: 0.95rem; margin-bottom: 2px; }
-.item-info small { color: var(--text-gray); font-size: 0.75rem; }
-.item-price { color: #4ade80; font-weight: 800; font-size: 1rem; }
+.section-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 700;
+}
 
-.btn-delete { background: none; border: none; color: #ef4444; font-size: 1.2rem; cursor: pointer; padding-left: 10px; }
+.btn-view-all {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--primary);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
 
-/* Dashboard Total */
+/* --- 5. ABA PERFIL (CENTRALIZADA E MAIOR) --- */
+.history-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.history-list, .activity-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Card de Gasto Premium */
+.item-card {
+    background: linear-gradient(145deg, #1e293b, #111827);
+    padding: 22px;
+    border-radius: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.item-info b {
+    display: block;
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.item-info small {
+    color: var(--text-gray);
+    font-size: 0.85rem;
+}
+
+.item-price {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #4ade80;
+}
+
+.btn-delete {
+    background: rgba(239, 68, 68, 0.15);
+    border: none;
+    color: #ef4444;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-delete:active {
+    transform: scale(0.9);
+    background: var(--danger);
+    color: white;
+}
+
+/* --- 6. FILTROS (CHIPS) --- */
+.filter-chips {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.chip {
+    background: #334155;
+    border: none;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.chip.active {
+    background: var(--primary);
+    box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+}
+
+/* --- 7. DASHBOARD TOTAL E MENU (TAB BAR) --- */
 .total-dashboard {
     position: fixed;
-    bottom: 95px;
+    bottom: 100px;
     left: 20px;
     right: 20px;
     background: var(--primary);
-    padding: 18px;
-    border-radius: 20px;
+    padding: 20px;
+    border-radius: 22px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -113,35 +263,44 @@ input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px 
     z-index: 99;
 }
 
-.total-label { font-weight: 700; text-transform: uppercase; font-size: 0.75rem; }
-.total-value { font-size: 1.4rem; font-weight: 900; }
+.total-label { font-weight: 800; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
+.total-value { font-size: 1.6rem; font-weight: 900; }
 
-/* Tab Bar */
 .tab-bar {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    height: 70px;
+    bottom: 25px;
+    left: 25px;
+    right: 25px;
+    height: 75px;
     background: #1e293b;
-    border-radius: 22px;
+    border-radius: 25px;
     display: flex;
     border: 1px solid rgba(255,255,255,0.05);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.7);
     z-index: 100;
 }
 
-.tab-btn { flex: 1; background: none; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-gray); }
+.tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-gray);
+    transition: 0.3s;
+}
+
 .tab-btn.active { color: var(--primary); }
-.tab-btn .icon { font-size: 1.3rem; margin-bottom: 4px; }
-.tab-btn .label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
+.tab-btn .icon { font-size: 1.5rem; margin-bottom: 4px; }
+.tab-btn .label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
 
-/* Filtros Perfil */
-.filter-chips { display: flex; gap: 8px; margin: 15px 0; }
-.chip { background: #334155; border: none; color: white; padding: 10px 18px; border-radius: 12px; font-weight: 600; font-size: 0.8rem; }
-.chip.active { background: var(--primary); }
-
+/* --- 8. ANIMAÇÕES --- */
 .content-section { display: none; }
-.content-section.active { display: block; animation: fadeIn 0.3s ease-out; }
+.content-section.active { display: block; animation: slideIn 0.4s ease-out; }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -31,10 +31,11 @@
                     <label>Descrição</label>
                     <input type="text" id="item" placeholder="O que você comprou?" autocomplete="off">
                 </div>
-                <div class="input-group">
-                    <label>Valor Pago</label>
-                    <input type="number" id="valor" placeholder="R$ 0,00" step="0.01" inputmode="decimal">
-                </div>
+               <div class="input-group">
+    <label>Valor Pago</label>
+    <!-- Mudamos para type="text" e adicionamos o id correto para a máscara -->
+    <input type="text" id="valor" placeholder="R$ 0,00" inputmode="numeric">
+</div>
                 <button onclick="salvarGasto()" class="btn-main">Lançar Gasto</button>
             </div>
 
@@ -47,19 +48,25 @@
             </div>
         </main>
 
-        <!-- ABA HISTÓRICO -->
-        <main id="aba-perfil" class="content-section">
-            <header class="app-header">
-                <h1>Meu Perfil</h1>
-                <div class="filter-chips">
-                    <button onclick="filtrar('dia', event)" class="chip">Hoje</button>
-                    <button onclick="filtrar('mes', event)" class="chip">Mês</button>
-                    <button onclick="filtrar('todos', event)" class="chip active">Tudo</button>
-                </div>
-            </header>
+       <!-- ABA HISTÓRICO (PERFIL) ATUALIZADA -->
+<main id="aba-perfil" class="content-section">
+    <header class="app-header perfil-header">
+        <h1>Meu Histórico</h1>
+        <p>Acompanhe todos os seus lançamentos</p>
+        
+        <div class="filter-chips">
+            <button onclick="filtrar('dia', event)" class="chip">Hoje</button>
+            <button onclick="filtrar('mes', event)" class="chip">Mês</button>
+            <button onclick="filtrar('todos', event)" class="chip active">Tudo</button>
+        </div>
+    </header>
 
-            <div id="tabela-corpo" class="history-list"></div>
-        </main>
+    <div class="history-wrapper">
+        <div id="tabela-corpo" class="history-list">
+            <!-- Os cards maiores aparecerão aqui -->
+        </div>
+    </div>
+</main>
 
         <!-- DASHBOARD DE TOTAL -->
         <div class="total-dashboard">
